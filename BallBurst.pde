@@ -10,7 +10,7 @@ ArrayList<Bullet> hittedBullets;
 PImage img;
 PShape s;
 
-final int BULLET_POWER = 3;
+final int BULLET_POWER = 5;
 
 void setup(){
  
@@ -29,7 +29,7 @@ void setup(){
   deadBalls = new ArrayList<Ball>();
   
   for(int i = 0;i<1;i++){
-    //balls.add(new Ball(50));//floor(random(50,100))));
+    balls.add(new Ball(60));//floor(random(50,100))));
   }
   //print(balls);
   
@@ -59,7 +59,7 @@ void draw(){
 
   if(mousePressed){
     if(frameCount % 3==0)
-    bullets.add(new Bullet(mouseX,height-100,10,BULLET_POWER));
+    bullets.add(new Bullet(mouseX,height-100,20,BULLET_POWER));
   }
   
   for(int i = 0 ; i<balls.size();i++){
@@ -98,7 +98,24 @@ void draw(){
           fill(0,255,0);
           ellipse(p4.x,p4.y,ball.size*2,ball.size*2);
           
-          if(ball.weight == BULLET_POWER){
+          if(abs(ball.weight - int(ball.initialWeight /BULLET_POWER)) <= BULLET_POWER && !ball.splitted ){
+            stroke(0,0,0);
+             strokeWeight(10);
+          
+         // ellipse(ball.x+ball.x,ball.y*2,ball.size,ball.size);
+                    // noLoop();
+                    
+                     int ballSize = ball.weight/2;
+              int rem = ballSize % BULLET_POWER;
+               int adder = BULLET_POWER - rem;
+                    
+             balls.add(new Ball(ballSize+adder,true,ball.x-ball.size,ball.y));
+             balls.add(new Ball(ballSize+adder,true,ball.x+ball.size,ball.y));
+            deadBalls.add(ball);
+          }
+          
+          
+          if(ball.weight == BULLET_POWER ){
            deadBalls.add(ball);
          }
           

@@ -7,10 +7,13 @@ class Ball{
  int r;
  int count;
  int weight;
+ int initialWeight ;
+ boolean splitted= false;
  
   Ball(int size){
     this.size = size;
     weight = size;
+    initialWeight = size;
      r = floor(random(2));
     if(r==0){
      x= 0-2*size; 
@@ -24,6 +27,28 @@ class Ball{
    // print(x,y,ySpeed,xSpeed,size,count);
   }
   
+  Ball(int size,boolean splitted,float x,float y){
+    this.size = size*size/3;
+    weight = size;
+    initialWeight = size;
+    this.splitted= splitted;
+    // r = floor(random(2));
+    //if(r==0){
+    // x= 0-2*size; 
+    //}else{
+    // x= width+2*size; 
+   // }
+   this.x= x;
+   this.y = y;
+    ySpeed = random(2,5);
+    xSpeed = random(2,3);
+    count=size*2;
+    
+    
+  }
+  
+  
+  
   void hit(int val){
     weight-=val;
     ySpeed = - ySpeed*.999999;
@@ -34,7 +59,7 @@ class Ball{
   
   void move(){
     
-    if(count<size*2){
+    if(count<size*2 && !splitted){
       
        if(r==0){
       x=x+xSpeed;
