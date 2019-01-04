@@ -62,7 +62,7 @@ void setup(){
 
 void draw(){
   image(img,0,0);
-  background(0);
+  //background(0);
 
    deadBullets = new ArrayList<Bullet>();
    hittedBullets = new ArrayList<Bullet>();
@@ -94,8 +94,8 @@ void draw(){
         
         textSize(30);
         stroke(255);
-        text("game over",width/2,height/2 );
-        //noLoop();    
+        text("Game over",width/2,height/2 );
+        noLoop();    
       
     }
     
