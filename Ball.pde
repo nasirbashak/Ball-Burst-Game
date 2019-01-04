@@ -4,18 +4,20 @@ class Ball{
  float y;
  float ySpeed;
  float xSpeed;
- int r;
+ int dir;
  int count;
  int weight;
  int initialWeight ;
  boolean splitted= false;
+ color c;
  
-  Ball(int size){
+  Ball(int size,color c){
     this.size = size;
     weight = size;
     initialWeight = size;
-     r = floor(random(2));
-    if(r==0){
+    this.c = c;
+     dir = floor(random(2));
+    if(dir==0){
      x= 0-2*size; 
     }else{
      x= width+2*size; 
@@ -27,22 +29,18 @@ class Ball{
    // print(x,y,ySpeed,xSpeed,size,count);
   }
   
-  Ball(int size,boolean splitted,float x,float y){
+  Ball(int size,boolean splitted,float x,float y,int dir,color c){
     this.size = size*size/3;
     weight = size;
     initialWeight = size;
+    this.c = c;
     this.splitted= splitted;
-    // r = floor(random(2));
-    //if(r==0){
-    // x= 0-2*size; 
-    //}else{
-    // x= width+2*size; 
-   // }
-   this.x= x;
-   this.y = y;
+    this.dir = dir;
+    this.x = x;
+    this.y = y;
     ySpeed = random(2,5);
     xSpeed = random(2,3);
-    count=size*2;
+    count=size;
     
     
   }
@@ -61,7 +59,7 @@ class Ball{
     
     if(count<size*2 && !splitted){
       
-       if(r==0){
+       if(dir==0){
       x=x+xSpeed;
       y=y+.5;
       count++;
@@ -72,6 +70,31 @@ class Ball{
       count++;
    
     }
+      
+    }else if(count<size*2 && splitted){
+        if(dir==0){
+          if(x+size>=width){
+            x=width-size;
+            count=2*size;
+          }
+          else  
+            x=x+xSpeed;
+      y=y+.5;
+      count++;
+    
+    }else{
+        if(x-size<=0){
+          x=size;
+          count = 2*size;
+        }
+        else
+          x=x-xSpeed;
+      y=y+.5;
+      count++;
+   
+    }
+     
+      
       
     }else{
       
@@ -94,14 +117,15 @@ class Ball{
   
   void show(){
    
-    stroke(0);
-    fill(255);
+   stroke(c);
+   strokeWeight(1);
+    fill(c);
     ellipse(x,y,size,size);
     stroke(0);
     fill(0);
     textSize(100/4);
     
-    text(weight,x-(weight+"").length()*4,y);
+    text(weight,x-(weight+"").length()*8,y+5);
     
     
   }

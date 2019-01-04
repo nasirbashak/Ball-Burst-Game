@@ -11,14 +11,37 @@ PImage img;
 PShape s;
 
 final int BULLET_POWER = 5;
+ArrayList<Integer> colors;
+
+
+void storeColors(){
+  
+  colors.add(color(250,91,61));//orange
+  colors.add(color(253,58,78));//red salsa
+  colors.add(color(255,170,29));// bright yellow
+  colors.add(color(167,244,40));// green lizard
+  colors.add(color(93,172,236));// blue jeans
+  colors.add(color(34,67,182));// denim blue
+  colors.add(color(89,70,178));//plump purple
+  colors.add(color(156,81,182));//purple plum
+  colors.add(color(168,55,49));// sweet brown
+  colors.add(color(255,84,112));//fiery rose
+  colors.add(color(255,219,0));//sizzling sunshine
+  colors.add(color(255,112,0));// heat wave
+  colors.add(color(135,255,42));// spring frost
+  colors.add(color(0,72,186));// absolute zero(blue)
+  colors.add(color(255,0,124));// winter sky
+  
+
+
+}
+
+
 
 void setup(){
  
   size(600,600);
-  
-  
-  //background(0);
-  
+  colorMode(RGB);
   img = loadImage("cb4.jpg");
   //s= loadShape("ball.svg");
   bullets = new ArrayList<Bullet>();
@@ -27,66 +50,58 @@ void setup(){
   balls = new ArrayList<Ball>();
   hittedBullets = new ArrayList<Bullet>();
   deadBalls = new ArrayList<Ball>();
+  colors = new ArrayList<Integer>();
+  storeColors();
   
   for(int i = 0;i<1;i++){
-    balls.add(new Ball(60));//floor(random(50,100))));
+    //balls.add(new Ball(60,color(255,0,244)));//floor(random(50,100))));
   }
   //print(balls);
   
-
 }
 
 void draw(){
   image(img,0,0);
-  //background(0);
-  //stroke(0);
-  //translate(width/2,height/2);
-  //sphere(40);
-   //shape(s, 10, 10, 80, 80);
+  background(0);
+
    deadBullets = new ArrayList<Bullet>();
    hittedBullets = new ArrayList<Bullet>();
    deadBalls = new ArrayList<Ball>();
    
    if(frameCount % 100 ==0){
-    //print(frameCount);
-    int ballSize = floor(random(50,100));
-    int rem = ballSize % BULLET_POWER;
-    int adder = BULLET_POWER - rem;
-      balls.add(new Ball(ballSize+adder));
+     
+      int ballSize = floor(random(50,100));
+      int rem = ballSize % BULLET_POWER;
+      int adder = BULLET_POWER - rem;
+      balls.add(new Ball(ballSize+adder,colors.get(floor(random(colors.size())))));
    }
    
-   
-
   if(mousePressed){
     if(frameCount % 3==0)
-    bullets.add(new Bullet(mouseX,height-100,20,BULLET_POWER));
+      bullets.add(new Bullet(mouseX,height-100,20,BULLET_POWER));
   }
   
   for(int i = 0 ; i<balls.size();i++){
-    Ball ball2 = balls.get(i);
     
+    Ball ball2 = balls.get(i);
     PVector can = new PVector(cannon.x,height-4*cannon.size);
-      PVector p = new PVector(ball2.x,ball2.y);//ball 
-      int distOfBallandCannon = floor(can.dist(p));
-      
-      //line(can.x,can.y,p.x,p.y);
-      
-      
+    PVector p = new PVector(ball2.x,ball2.y);//ball 
+    int distOfBallandCannon = floor(can.dist(p));
+    
+    //line(can.x,can.y,p.x,p.y);
+        
       if(distOfBallandCannon<=cannon.size+ball2.size/2){
+        
         textSize(30);
         stroke(255);
         text("game over",width/2,height/2 );
-        //noLoop();
-        
-      }
-    
-    
+        //noLoop();    
+      
+    }
     
     for(int j = 0; j<bullets.size();j++){
       Ball ball = balls.get(i);
       Bullet bullet = bullets.get(j);
-      
-  
       
       PVector p3 = new PVector(bullet.x,bullet.y);//bullet
       PVector p4 = new PVector(ball.x,ball.y);//ball
@@ -94,36 +109,35 @@ void draw(){
       int d3 = floor(p4.dist(p3));
 
         if(d3 <= ball.size/2){ 
-          stroke(255,0,0);
-          fill(0,255,0);
+          
+          stroke(ball.c+100);
+          fill(ball.c);
           ellipse(p4.x,p4.y,ball.size*2,ball.size*2);
-          
+          //splitting
           if(abs(ball.weight - int(ball.initialWeight /BULLET_POWER)) <= BULLET_POWER && !ball.splitted ){
+            
             stroke(0,0,0);
-             strokeWeight(10);
-          
-         // ellipse(ball.x+ball.x,ball.y*2,ball.size,ball.size);
-                    // noLoop();
+            strokeWeight(10);
+              
+            int ballSize = ball.weight/2;
+            int rem = ballSize % BULLET_POWER;
+            int adder = BULLET_POWER - rem;
                     
-                     int ballSize = ball.weight/2;
-              int rem = ballSize % BULLET_POWER;
-               int adder = BULLET_POWER - rem;
-                    
-             balls.add(new Ball(ballSize+adder,true,ball.x-ball.size,ball.y));
-             balls.add(new Ball(ballSize+adder,true,ball.x+ball.size,ball.y));
+            balls.add(new Ball(ballSize+adder,true,ball.x,ball.y,0,ball.c));
+            balls.add(new Ball(ballSize+adder,true,ball.x,ball.y,1,ball.c));
             deadBalls.add(ball);
-          }
           
-          
-          if(ball.weight == BULLET_POWER ){
-           deadBalls.add(ball);
-         }
-          
-       else if(ball.weight>0){
+        }
+         
+        if(ball.weight == BULLET_POWER ){
+           
+          deadBalls.add(ball);
+         
+       }else if(ball.weight>0){
        
-         ball.hit(bullet.power);
-       
-     }
+         ball.hit(bullet.power);  
+     
+       }
          
           hittedBullets.add(bullet);
            
@@ -142,7 +156,9 @@ void draw(){
     b.show();
     
     if(b.y < 0){
+      
      deadBullets.add(b); 
+    
     }
    
     
