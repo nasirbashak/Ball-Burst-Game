@@ -59,7 +59,7 @@ class Ball{
     
     weight-=val;
     ySpeed = ySpeed*0.999999;
-    xSpeed = xSpeed*0.111111;
+    xSpeed = xSpeed*1.000001;
     //ySpeed *=.999999;
     size-=val*.11;
     

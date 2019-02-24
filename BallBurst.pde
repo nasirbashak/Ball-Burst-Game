@@ -45,7 +45,7 @@ void setup(){
  
   size(600,700);
   colorMode(RGB);
-  img = loadImage("battle2.jpg");
+  img = loadImage("images/battle2.jpg");
   //background(0);
   //s= loadShape("ball.svg");
   bullets = new ArrayList<Bullet>();

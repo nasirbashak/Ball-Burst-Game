@@ -13,7 +13,7 @@ class Bullet{
     this.size = size;
     this.power= power;
     ySpeed = 5;//random(2,5);
-    img = loadImage("bullet2.png");
+    img = loadImage("images/bullet2.png");
     
   }
   

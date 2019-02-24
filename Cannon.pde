@@ -5,7 +5,7 @@ class Cannon{
   PImage img;
   Cannon(int size){
     this.size = size;
-    img = loadImage("battle_tank4.png");
+    img = loadImage("images/battle_tank4.png");
   
   }
   
