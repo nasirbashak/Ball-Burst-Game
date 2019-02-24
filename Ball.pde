@@ -58,8 +58,8 @@ class Ball{
   void hit(int val){
     
     weight-=val;
-    ySpeed = - ySpeed;
-    //xSpeed = - xSpeed;
+    ySpeed = ySpeed*0.999999;
+    xSpeed = xSpeed*0.111111;
     //ySpeed *=.999999;
     size-=val*.11;
     

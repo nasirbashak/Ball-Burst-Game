@@ -100,7 +100,8 @@ void draw(){
       if(distOfBallandCannon<=cannon.size+ball2.size/2){
         
         textSize(30);
-        stroke(255);
+        stroke(255,0,0);
+        fill(255,0,0);
         text("Game over",width/2,height/2 );
         noLoop();    
       
